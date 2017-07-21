@@ -1,2 +1,2 @@
 # mindsweeper
-Basic Mind Sweeper Game.
+Basic Mind Sweeper Game. Includes custom functions to pick your own boar size.
