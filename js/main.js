@@ -1,6 +1,6 @@
 var game = {
 
-  // Debug mode
+  
   debug: false,
 
   gridSize: 8,
@@ -8,32 +8,32 @@ var game = {
 
   mines: [],
 
-  // Init the game, change context
+ 
   init: function () {
     game.continue();
   },
 
-  // Begin game
+  
   continue: function () {
     this.bindEvents();
     this.renderGrid();
     this.determineMines();
   },
 
-  // Bind events for buttons
+  
   bindEvents: function () {
     $('#actionNew').click($.proxy(this.newGame, this));
     $('#actionValidate').click($.proxy(this.validateGame, this));
     $('#actionCheat').click($.proxy(this.showMines, this));
   },
 
-  // Render grid in the DOM
+ 
   renderGrid: function () {
     for (y = 1; y <= this.gridSize; y++) {
-      // Render rows first
+     
       var row = $('<div class="row"></div>').appendTo('#board');
 
-      // Render cells with actions
+      
       for (x = 1; x <= this.gridSize; x++) {
         var cell = $('<div></div>', {
           'class': 'cell',
@@ -47,7 +47,7 @@ var game = {
     }
   },
 
-  // Determine the position of a specific amount of mines
+  
   determineMines: function () {
     for (i = 0; i <= this.mineCount; i++) {
       var x = this.getRand(1, this.gridSize);
@@ -64,7 +64,7 @@ var game = {
     }
   },
 
-  // Show mine locations
+  
   showMines: function (e) {
     if (typeof e != 'undefined') e.preventDefault();
 
@@ -75,13 +75,13 @@ var game = {
     }
   },
 
-  // Count the surrounding mines from coordinates
+ 
   getSurroundingMines: function (x, y) {
     var count = 0;
     var mines = [];
     var cells = [];
 
-    // Loop through mines and compare against coords
+   
     for (i in this.mines) {
       var mine = this.mines[i];
       var coords = mine.split('x');
@@ -97,7 +97,7 @@ var game = {
       }
     }
 
-    // Only get surrounding cells if the count is 0, to save system resources
+    
     if (count === 0) {
       // Top left
       var cell = this.getCellByCoords(x - 1, y - 1);
@@ -135,14 +135,14 @@ var game = {
     return {mines: mines, cells: cells};
   },
 
-  // End game
+ 
   endGame: function () {
     alert('Game is over!');
 
     this.newGame();
   },
 
-  // New game
+  
   newGame: function (e) {
     if (typeof e != 'undefined') e.preventDefault();
 
@@ -175,7 +175,7 @@ var game = {
     }
   },
 
-  // Get a cell by coords
+  
   getCellByCoords: function (x, y) {
     return $('div[data-x="' + x + '"][data-y="' + y + '"]');
   },
@@ -185,14 +185,14 @@ var game = {
     var x = parseInt(cell.attr('data-x')), y = parseInt(cell.attr('data-y'));
     var coords = x + 'x' + y;
 
-    // Did we guess correctly? If not, end game
+   
     if ($.inArray(coords, game.mines) == -1) {
       var surrounding = game.getSurroundingMines(x, y);
 
       cell.addClass('correct');
       cell.html(surrounding.mines.length);
 
-      // Blow up the surrounding cells
+      
       if (surrounding.mines.length === 0) {
         for (i in surrounding.cells) {
           surrounding.cells[i].addClass('correct');
@@ -204,7 +204,7 @@ var game = {
     }
   },
 
-  // Basic functions
+  
   getRand: function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
